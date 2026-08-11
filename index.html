@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wolfborn</title>
+<meta name="description" content="Wolfborn — ouça o álbum completo.">
+<link rel="icon" href="assets/cover.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="embers" aria-hidden="true">
+  <span></span><span></span><span></span><span></span><span></span><span></span>
+</div>
+
+<header class="hero">
+  <img class="hero__cover" src="assets/cover.png" alt="Capa do álbum Wolfborn: um lobo uiva para a lua cheia sobre um penhasco, com uma floresta em chamas e uma catedral gótica ao fundo">
+  <div class="hero__fade"></div>
+  <h1 class="sr-only">Wolfborn</h1>
+</header>
+
+<main class="album">
+  <p class="eyebrow">O álbum</p>
+  <ol class="tracklist" id="tracklist" aria-label="Faixas do álbum"></ol>
+</main>
+
+<footer class="transport" id="transport">
+  <div class="transport__inner">
+
+    <div class="transport__now">
+      <p class="transport__title" id="nowPlayingTitle">Escolha uma faixa</p>
+      <div class="transport__seek-row">
+        <span class="transport__time" id="currentTime">0:00</span>
+        <input type="range" id="seekBar" class="seek-bar" min="0" max="100" value="0" step="0.1" aria-label="Progresso da faixa" disabled>
+        <span class="transport__time" id="duration">0:00</span>
+      </div>
+    </div>
+
+    <div class="transport__controls">
+      <button id="prevBtn" class="ctrl-btn" aria-label="Faixa anterior" disabled>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4h2v16H6V4zm3.5 8L20 4v16L9.5 12z"/></svg>
+      </button>
+      <button id="playBtn" class="ctrl-btn ctrl-btn--play" aria-label="Reproduzir" disabled>
+        <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        <svg id="pauseIcon" viewBox="0 0 24 24" fill="currentColor" hidden><path d="M6 5h4v14H6V5zm8 0h4v14h-4V5z"/></svg>
+      </button>
+      <button id="nextBtn" class="ctrl-btn" aria-label="Próxima faixa" disabled>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 4h2v16h-2V4zM4.5 4L15 12 4.5 20V4z"/></svg>
+      </button>
+    </div>
+
+    <div class="transport__volume">
+      <svg viewBox="0 0 24 24" fill="currentColor" class="volume-icon"><path d="M3 10v4h4l5 5V5L7 10H3zm13.5 2a4.5 4.5 0 00-2.5-4.03v8.05A4.5 4.5 0 0016.5 12z"/></svg>
+      <input type="range" id="volumeBar" class="volume-bar" min="0" max="100" value="80" aria-label="Volume">
+    </div>
+
+  </div>
+</footer>
+
+<audio id="audio" preload="metadata"></audio>
+<script src="script.js"></script>
+</body>
+</html>
