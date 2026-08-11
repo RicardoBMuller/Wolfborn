@@ -60,6 +60,27 @@ body{
   pointer-events: none;
 }
 
+/* ---------- album heading ---------- */
+
+.album-heading{
+  max-width: 720px;
+  margin: 30px auto 4px;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.eyebrow--band{ margin-bottom: 10px; }
+
+.album-title{
+  font-family: var(--font-decorative);
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 0.03em;
+  color: var(--moon);
+  margin: 0 0 30px;
+  text-shadow: 0 0 18px rgba(232,200,115,0.22);
+}
+
 /* ---------- album / tracklist ---------- */
 
 .album{
@@ -271,6 +292,38 @@ body{
 
 .ctrl-btn:disabled{ opacity: 0.35; cursor: default; }
 
+.ctrl-btn--toggle{
+  position: relative;
+  width: 32px; height: 32px;
+  align-items: center;
+  justify-content: center;
+}
+
+.ctrl-btn--toggle svg{ width: 16px; height: 16px; }
+
+.ctrl-btn--active{
+  color: var(--ember-bright);
+  background: rgba(193,69,28,0.16);
+}
+
+.repeat-one-badge{
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--ember-bright);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 600;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .ctrl-btn--play{
   background: var(--ember);
   color: var(--ink);
@@ -375,6 +428,8 @@ input[type="range"]:disabled::-webkit-slider-thumb{ background: var(--moon-dim);
   }
   .transport__now{ grid-column: 1 / -1; }
   .transport__volume{ display: none; }
+  .transport__controls{ gap: 4px; }
+  .ctrl-btn{ padding: 6px; }
   .track__row{ grid-template-columns: 32px 1fr auto; gap: 10px; padding: 12px 14px; }
   .track__lyrics-toggle{ grid-column: 1 / -1; justify-self: start; margin-top: 4px; }
 }

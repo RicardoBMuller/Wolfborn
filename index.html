@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wolfborn</title>
+<title>Wolfborn — The First One</title>
 <meta name="description" content="Wolfborn — ouça o álbum completo.">
 <link rel="icon" href="assets/cover.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,8 +23,13 @@
   <h1 class="sr-only">Wolfborn</h1>
 </header>
 
+<div class="album-heading">
+  <p class="eyebrow eyebrow--band">Wolfborn</p>
+  <h2 class="album-title">The First One</h2>
+</div>
+
 <main class="album">
-  <p class="eyebrow">O álbum</p>
+  <p class="eyebrow">Faixas</p>
   <ol class="tracklist" id="tracklist" aria-label="Faixas do álbum"></ol>
 </main>
 
@@ -41,6 +46,15 @@
     </div>
 
     <div class="transport__controls">
+      <button id="shuffleBtn" class="ctrl-btn ctrl-btn--toggle" aria-label="Ativar modo aleatório" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="16 3 21 3 21 8"></polyline>
+          <line x1="4" y1="20" x2="21" y2="3"></line>
+          <polyline points="21 16 21 21 16 21"></polyline>
+          <line x1="15" y1="15" x2="21" y2="21"></line>
+          <line x1="4" y1="4" x2="9" y2="9"></line>
+        </svg>
+      </button>
       <button id="prevBtn" class="ctrl-btn" aria-label="Faixa anterior" disabled>
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4h2v16H6V4zm3.5 8L20 4v16L9.5 12z"/></svg>
       </button>
@@ -50,6 +64,15 @@
       </button>
       <button id="nextBtn" class="ctrl-btn" aria-label="Próxima faixa" disabled>
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 4h2v16h-2V4zM4.5 4L15 12 4.5 20V4z"/></svg>
+      </button>
+      <button id="repeatBtn" class="ctrl-btn ctrl-btn--toggle" aria-label="Ativar repetição" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="17 1 21 5 17 9"></polyline>
+          <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+          <polyline points="7 23 3 19 7 15"></polyline>
+          <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+        </svg>
+        <span class="repeat-one-badge" id="repeatOneBadge" hidden>1</span>
       </button>
     </div>
 

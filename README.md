@@ -1,4 +1,4 @@
-# Wolfborn — player
+# Wolfborn — The First One (player)
 
 Site estático de uma página para tocar o álbum e mostrar as letras. Sem build, sem dependências — é só HTML, CSS e JS puros, prontos para o GitHub Pages.
 

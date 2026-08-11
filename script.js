@@ -2,7 +2,7 @@
 // Para adicionar as faixas: coloque o .mp3 e o .txt da letra dentro de /songs
 // com o MESMO nome de base indicado abaixo (só muda a extensão).
 const ALBUM = {
-  title: "Wolfborn",
+  title: "The First One",
   artist: "Wolfborn",
   cover: "assets/cover.png",
   tracks: [
@@ -18,6 +18,9 @@ const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
 // ---------- state ----------
 let currentIndex = -1;
 let isPlaying = false;
+let shuffleOn = false;
+let repeatMode = "off"; // "off" | "all" | "one"
+let shuffleHistory = [];
 const lyricsCache = {};
 
 // ---------- dom ----------
@@ -33,6 +36,9 @@ const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 const playIcon = document.getElementById("playIcon");
 const pauseIcon = document.getElementById("pauseIcon");
+const shuffleBtn = document.getElementById("shuffleBtn");
+const repeatBtn = document.getElementById("repeatBtn");
+const repeatOneBadge = document.getElementById("repeatOneBadge");
 
 // ---------- build tracklist ----------
 function renderTracklist() {
@@ -132,7 +138,7 @@ function selectTrack(index, autoplay) {
 
   audio.src = track.base + ".mp3";
   nowPlayingTitle.textContent = track.title;
-  document.title = `${track.title} — ${ALBUM.title}`;
+  document.title = `${track.title} — ${ALBUM.artist}`;
 
   [...tracklistEl.children].forEach((li) => li.classList.remove("track--active"));
   getTrackEl(index).classList.add("track--active");
@@ -170,14 +176,77 @@ function playPause() {
 
 function playNext() {
   if (currentIndex === -1) return;
-  const next = (currentIndex + 1) % ALBUM.tracks.length;
+  let next;
+  if (shuffleOn) {
+    shuffleHistory.push(currentIndex);
+    if (ALBUM.tracks.length > 1) {
+      do {
+        next = Math.floor(Math.random() * ALBUM.tracks.length);
+      } while (next === currentIndex);
+    } else {
+      next = currentIndex;
+    }
+  } else {
+    next = (currentIndex + 1) % ALBUM.tracks.length;
+  }
   selectTrack(next, true);
 }
 
 function playPrev() {
   if (currentIndex === -1) return;
+  if (shuffleOn && shuffleHistory.length) {
+    const prev = shuffleHistory.pop();
+    selectTrack(prev, true);
+    return;
+  }
   const prev = (currentIndex - 1 + ALBUM.tracks.length) % ALBUM.tracks.length;
   selectTrack(prev, true);
+}
+
+function toggleShuffle() {
+  shuffleOn = !shuffleOn;
+  shuffleHistory = currentIndex !== -1 ? [currentIndex] : [];
+  shuffleBtn.classList.toggle("ctrl-btn--active", shuffleOn);
+  shuffleBtn.setAttribute("aria-pressed", String(shuffleOn));
+  shuffleBtn.setAttribute(
+    "aria-label",
+    shuffleOn ? "Desativar modo aleatório" : "Ativar modo aleatório"
+  );
+}
+
+function cycleRepeat() {
+  repeatMode = repeatMode === "off" ? "all" : repeatMode === "all" ? "one" : "off";
+  const active = repeatMode !== "off";
+  repeatBtn.classList.toggle("ctrl-btn--active", active);
+  repeatBtn.setAttribute("aria-pressed", String(active));
+  repeatOneBadge.hidden = repeatMode !== "one";
+  repeatBtn.setAttribute(
+    "aria-label",
+    repeatMode === "off"
+      ? "Ativar repetição"
+      : repeatMode === "all"
+      ? "Repetindo o álbum — clique para repetir só a faixa"
+      : "Repetindo só esta faixa — clique para desligar"
+  );
+}
+
+function handleTrackEnded() {
+  if (repeatMode === "one") {
+    audio.currentTime = 0;
+    audio.play().catch(() => {});
+    return;
+  }
+  if (shuffleOn) {
+    playNext();
+    return;
+  }
+  const isLastTrack = currentIndex === ALBUM.tracks.length - 1;
+  if (isLastTrack && repeatMode !== "all") {
+    audio.pause();
+    audio.currentTime = 0;
+    return;
+  }
+  playNext();
 }
 
 function formatTime(seconds) {
@@ -193,6 +262,8 @@ function formatTime(seconds) {
 playBtn.addEventListener("click", playPause);
 nextBtn.addEventListener("click", playNext);
 prevBtn.addEventListener("click", playPrev);
+shuffleBtn.addEventListener("click", toggleShuffle);
+repeatBtn.addEventListener("click", cycleRepeat);
 
 audio.addEventListener("play", () => {
   isPlaying = true;
@@ -219,7 +290,7 @@ audio.addEventListener("timeupdate", () => {
   }
 });
 
-audio.addEventListener("ended", playNext);
+audio.addEventListener("ended", handleTrackEnded);
 
 seekBar.addEventListener("input", () => {
   if (isFinite(audio.duration)) {
