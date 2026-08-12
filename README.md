@@ -12,14 +12,14 @@ wolfborn-player/
 ├── assets/
 │   └── cover.png          ← a arte que você enviou
 └── songs/
-    ├── 01 - Born of Steel and Thunder.mp3   (você adiciona)
-    ├── 01 - Born of Steel and Thunder.txt   (letra)
-    ├── 02 - Escape the Shadow.mp3
-    ├── 02 - Escape the Shadow.txt
-    ├── 03 - Wolfborn.mp3
-    ├── 03 - Wolfborn.txt
-    ├── 04 - Fear the Dark.mp3
-    └── 04 - Fear the Dark.txt
+    ├── 1 - Born of Steel and Thunder.mp3   (você adiciona)
+    ├── 1 - Born of Steel and Thunder.txt   (letra)
+    ├── 2 - Escape the Shadow.mp3
+    ├── 2 - Escape the Shadow.txt
+    ├── 3 - Wolfborn.mp3
+    ├── 3 - Wolfborn.txt
+    ├── 4 - Fear the Dark.mp3
+    └── 4 - Fear the Dark.txt
 ```
 
 ## Como adicionar as músicas
@@ -29,8 +29,8 @@ Os 4 arquivos `.txt` de letra já estão em `/songs` como placeholder — é só
 Falta você adicionar os `.mp3`. Regra única: **o nome do arquivo de áudio precisa ser idêntico ao nome do `.txt`**, só muda a extensão. Exemplo:
 
 ```
-songs/03 - Wolfborn.mp3
-songs/03 - Wolfborn.txt
+songs/3 - Wolfborn.mp3
+songs/3 - Wolfborn.txt
 ```
 
 Se quiser renomear faixas ou mudar a ordem, edite o array `ALBUM.tracks` no topo de `script.js` — o site é gerado a partir dessa lista, não precisa mexer no HTML.

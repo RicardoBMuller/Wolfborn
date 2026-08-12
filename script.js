@@ -6,10 +6,10 @@ const ALBUM = {
   artist: "Wolfborn",
   cover: "assets/cover.png",
   tracks: [
-    { title: "Born of Steel and Thunder", base: "songs/01 - Born of Steel and Thunder" },
-    { title: "Escape the Shadow",         base: "songs/02 - Escape the Shadow" },
-    { title: "Wolfborn",                  base: "songs/03 - Wolfborn" },
-    { title: "Fear the Dark",             base: "songs/04 - Fear the Dark" },
+    { title: "Born of Steel and Thunder", base: "songs/1 - Born of Steel and Thunder" },
+    { title: "Escape the Shadow",         base: "songs/2 - Escape the Shadow" },
+    { title: "Wolfborn",                  base: "songs/3 - Wolfborn" },
+    { title: "Fear the Dark",             base: "songs/4 - Fear the Dark" },
   ]
 };
 
