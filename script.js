@@ -95,6 +95,12 @@ function getTrackEl(index) {
 }
 
 // ---------- lyrics ----------
+function openLyricsPanel(panel) {
+  // measure the real height of the content and animate to that,
+  // instead of a fixed cap that would clip longer lyrics
+  panel.style.maxHeight = panel.scrollHeight + "px";
+}
+
 async function toggleLyrics(index) {
   const li = getTrackEl(index);
   const panel = li.querySelector(".track__lyrics");
@@ -104,15 +110,18 @@ async function toggleLyrics(index) {
 
   if (isOpen) {
     panel.classList.remove("is-open");
+    panel.style.maxHeight = "0px";
     btn.setAttribute("aria-expanded", "false");
     return;
   }
 
   panel.classList.add("is-open");
   btn.setAttribute("aria-expanded", "true");
+  openLyricsPanel(panel); // reveal the "Carregando letra..." placeholder right away
 
   if (lyricsCache[index]) {
     textEl.textContent = lyricsCache[index];
+    openLyricsPanel(panel);
     return;
   }
 
@@ -129,7 +138,14 @@ async function toggleLyrics(index) {
       track.base.split("/").pop() +
       '.txt" existe na pasta /songs, e sirva o site por http (GitHub Pages ou um servidor local) — abrir o index.html direto do disco bloqueia esse carregamento.';
   }
+  openLyricsPanel(panel);
 }
+
+window.addEventListener("resize", () => {
+  document.querySelectorAll(".track__lyrics.is-open").forEach((panel) => {
+    panel.style.maxHeight = panel.scrollHeight + "px";
+  });
+});
 
 // ---------- playback ----------
 function selectTrack(index, autoplay) {

@@ -218,10 +218,6 @@ body{
   transition: max-height .35s ease;
 }
 
-.track__lyrics.is-open{
-  max-height: 900px;
-}
-
 .track__lyrics-inner{
   margin: 0 16px 16px;
   padding: 20px 22px;
@@ -292,7 +288,8 @@ body{
 .transport__controls{
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: 14px;
 }
 
 .ctrl-btn{
@@ -300,13 +297,13 @@ body{
   border: none;
   color: var(--moon);
   cursor: pointer;
-  padding: 8px;
+  padding: 10px;
   border-radius: 50%;
   display: flex;
   transition: color .2s ease, background .2s ease;
 }
 
-.ctrl-btn svg{ width: 20px; height: 20px; }
+.ctrl-btn svg{ width: 24px; height: 24px; }
 
 .ctrl-btn:hover:not(:disabled){ color: var(--ember-bright); }
 
@@ -314,12 +311,12 @@ body{
 
 .ctrl-btn--toggle{
   position: relative;
-  width: 32px; height: 32px;
+  width: 38px; height: 38px;
   align-items: center;
   justify-content: center;
 }
 
-.ctrl-btn--toggle svg{ width: 16px; height: 16px; }
+.ctrl-btn--toggle svg{ width: 18px; height: 18px; }
 
 .ctrl-btn--active{
   color: var(--ember-bright);
@@ -347,12 +344,12 @@ body{
 .ctrl-btn--play{
   background: var(--ember);
   color: var(--ink);
-  width: 44px; height: 44px;
+  width: 54px; height: 54px;
   align-items: center;
   justify-content: center;
 }
 
-.ctrl-btn--play svg{ width: 20px; height: 20px; }
+.ctrl-btn--play svg{ width: 26px; height: 26px; }
 
 .ctrl-btn--play:hover:not(:disabled){
   background: var(--ember-bright);
@@ -448,8 +445,7 @@ input[type="range"]:disabled::-webkit-slider-thumb{ background: var(--moon-dim);
   }
   .transport__now{ grid-column: 1 / -1; }
   .transport__volume{ display: none; }
-  .transport__controls{ gap: 4px; }
-  .ctrl-btn{ padding: 6px; }
+  .transport__controls{ grid-column: 1 / -1; gap: 10px; }
   .track__row{ grid-template-columns: 32px 1fr auto; gap: 10px; padding: 12px 14px; }
   .track__lyrics-toggle{ grid-column: 1 / -1; justify-self: start; margin-top: 4px; }
 }
