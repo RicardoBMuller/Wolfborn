@@ -48,10 +48,14 @@ function renderTracklist() {
     const li = document.createElement("li");
     li.className = "track";
     li.dataset.index = index;
+    li.style.setProperty("--i", index);
 
     li.innerHTML = `
       <div class="track__row" role="button" tabindex="0" aria-label="Reproduzir ${track.title}">
-        <span class="track__num">${ROMAN[index] || index + 1}</span>
+        <span class="track__num">
+          <span class="track__num-text">${ROMAN[index] || index + 1}</span>
+          <span class="track__eq" aria-hidden="true"><i></i><i></i><i></i></span>
+        </span>
         <span class="track__title">${track.title}</span>
         <span class="track__duration" data-role="duration">--:--</span>
         <button class="track__lyrics-toggle" type="button" aria-expanded="false">Letra</button>
@@ -90,6 +94,28 @@ function renderTracklist() {
 
     tracklistEl.appendChild(li);
   });
+
+  revealOnScroll();
+}
+
+function revealOnScroll() {
+  const tracks = [...tracklistEl.querySelectorAll(".track")];
+  if (!("IntersectionObserver" in window)) {
+    tracks.forEach((el) => el.classList.add("in-view"));
+    return;
+  }
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in-view");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+  );
+  tracks.forEach((el) => observer.observe(el));
 }
 
 function getTrackEl(index) {
@@ -158,7 +184,7 @@ function selectTrack(index, autoplay) {
   nowPlayingTitle.textContent = track.title;
   document.title = `${track.title} — ${ALBUM.artist}`;
 
-  [...tracklistEl.children].forEach((li) => li.classList.remove("track--active"));
+  [...tracklistEl.children].forEach((li) => li.classList.remove("track--active", "is-playing"));
   getTrackEl(index).classList.add("track--active");
 
   seekBar.disabled = false;
@@ -288,6 +314,9 @@ audio.addEventListener("play", () => {
   playIcon.hidden = true;
   pauseIcon.hidden = false;
   playBtn.setAttribute("aria-label", "Pausar");
+  document.body.classList.add("is-playing");
+  const activeLi = getTrackEl(currentIndex);
+  if (activeLi) activeLi.classList.add("is-playing");
 });
 
 audio.addEventListener("pause", () => {
@@ -295,6 +324,9 @@ audio.addEventListener("pause", () => {
   playIcon.hidden = false;
   pauseIcon.hidden = true;
   playBtn.setAttribute("aria-label", "Reproduzir");
+  document.body.classList.remove("is-playing");
+  const activeLi = getTrackEl(currentIndex);
+  if (activeLi) activeLi.classList.remove("is-playing");
 });
 
 audio.addEventListener("loadedmetadata", () => {
@@ -330,3 +362,62 @@ if ("mediaSession" in navigator) {
 // ---------- init ----------
 audio.volume = volumeBar.value / 100;
 renderTracklist();
+
+// ---------- pwa: service worker ----------
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  });
+}
+
+// ---------- pwa: install button ----------
+(function setupInstall() {
+  const installBtn = document.getElementById("installBtn");
+  const installTip = document.getElementById("installTip");
+  if (!installBtn) return;
+
+  const isStandalone =
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.navigator.standalone === true;
+
+  if (isStandalone) return; // already installed, nothing to offer
+
+  const isIOS = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+
+  let deferredPrompt = null;
+
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.hidden = false;
+  });
+
+  window.addEventListener("appinstalled", () => {
+    installBtn.hidden = true;
+    deferredPrompt = null;
+  });
+
+  installBtn.addEventListener("click", async () => {
+    if (deferredPrompt) {
+      installBtn.hidden = true;
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      return;
+    }
+    if (isIOS && installTip) {
+      const willShow = installTip.hidden;
+      installTip.hidden = !willShow;
+      if (willShow) {
+        setTimeout(() => {
+          installTip.hidden = true;
+        }, 6000);
+      }
+    }
+  });
+
+  // iOS never fires beforeinstallprompt — show the button so the tip is reachable
+  if (isIOS) {
+    installBtn.hidden = false;
+  }
+})();
