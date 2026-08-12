@@ -8,10 +8,10 @@ const ALBUM = {
   tracks: [
     { title: "Born of Steel and Thunder", base: "songs/1 - Born of Steel and Thunder" },
     { title: "Escape the Shadow",         base: "songs/2 - Escape the Shadow" },
-    { title: "Wolfborn",                  base: "songs/3 - Wolfborn" },
-    { title: "Fear the Dark",             base: "songs/4 - Fear the Dark" },
-    { title: "Crown of Ash",              base: "songs/5 - Crown of Ash" },
-    { title: "Timeless Warrior",          base: "songs/6 - Timeless Warrior" },
+    { title: "Timeless Warrior",          base: "songs/3 - Timeless Warrior" },
+    { title: "Wolfborn",                  base: "songs/4 - Wolfborn" },
+    { title: "Fear the Dark",             base: "songs/5 - Fear the Dark" },
+    { title: "Crown of Ash",              base: "songs/6 - Crown of Ash" },
   ]
 };
 
