@@ -10,7 +10,8 @@ const ALBUM = {
     { title: "Escape the Shadow",         base: "songs/2 - Escape the Shadow" },
     { title: "Wolfborn",                  base: "songs/3 - Wolfborn" },
     { title: "Fear the Dark",             base: "songs/4 - Fear the Dark" },
-    { title: "Timeless Warrior",          base: "songs/5 - Timeless Warrior" },
+    { title: "Crown of Ash",              base: "songs/5 - Crown of Ash" },
+    { title: "Timeless Warrior",          base: "songs/6 - Timeless Warrior" },
   ]
 };
 
