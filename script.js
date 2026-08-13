@@ -9,10 +9,10 @@ const ALBUM = {
     { title: "Born of Steel and Thunder", base: "songs/1 - Born of Steel and Thunder" },
     { title: "Escape the Shadow",         base: "songs/2 - Escape the Shadow" },
     { title: "Timeless Warrior",          base: "songs/3 - Timeless Warrior" },
-    { title: "Burn my Name",              base: "songs/4 - Burn my Name" },
+    { title: "Gabriel... The Priest",     base: "songs/4 - Gabriel... The Priest" },
     { title: "Wolfborn",                  base: "songs/5 - Wolfborn" },
-    { title: "Fear the Dark",             base: "songs/6 - Fear the Dark" },
-    { title: "Crown of Ash",              base: "songs/7 - Crown of Ash" },
+    { title: "Crown of Ash",              base: "songs/6 - Crown of Ash" },
+    { title: "Fear the Dark",             base: "songs/7 - Fear the Dark" },
   ]
 };
 
