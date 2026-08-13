@@ -159,9 +159,22 @@ body{
   font-size: 30px;
   letter-spacing: 0.03em;
   color: var(--moon);
-  margin: 0 0 30px;
+  margin: 0 0 10px;
   text-shadow: 0 0 18px rgba(232,200,115,0.22);
 }
+
+.album-meta{
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--moon-dim);
+  margin: 0 0 30px;
+  min-height: 15px;
+  opacity: 0;
+  transition: opacity .5s ease;
+}
+
+.album-meta.is-ready{ opacity: 1; }
 
 /* ---------- album / tracklist ---------- */
 

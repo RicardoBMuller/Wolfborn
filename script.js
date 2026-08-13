@@ -9,9 +9,10 @@ const ALBUM = {
     { title: "Born of Steel and Thunder", base: "songs/1 - Born of Steel and Thunder" },
     { title: "Escape the Shadow",         base: "songs/2 - Escape the Shadow" },
     { title: "Timeless Warrior",          base: "songs/3 - Timeless Warrior" },
-    { title: "Wolfborn",                  base: "songs/4 - Wolfborn" },
-    { title: "Fear the Dark",             base: "songs/5 - Fear the Dark" },
-    { title: "Crown of Ash",              base: "songs/6 - Crown of Ash" },
+    { title: "Burn my Name",              base: "songs/4 - Burn my Name" },
+    { title: "Wolfborn",                  base: "songs/5 - Wolfborn" },
+    { title: "Fear the Dark",             base: "songs/6 - Fear the Dark" },
+    { title: "Crown of Ash",              base: "songs/7 - Crown of Ash" },
   ]
 };
 
@@ -41,6 +42,32 @@ const pauseIcon = document.getElementById("pauseIcon");
 const shuffleBtn = document.getElementById("shuffleBtn");
 const repeatBtn = document.getElementById("repeatBtn");
 const repeatOneBadge = document.getElementById("repeatOneBadge");
+const albumMeta = document.getElementById("albumMeta");
+
+const trackDurations = new Array(ALBUM.tracks.length).fill(null);
+
+function updateAlbumMeta() {
+  if (!albumMeta) return;
+  const known = trackDurations.filter((d) => d !== null);
+  if (known.length < ALBUM.tracks.length) return; // wait until every track has reported in
+
+  const total = known.reduce((sum, d) => sum + d, 0);
+  const count = ALBUM.tracks.length;
+  const label = count === 1 ? "faixa" : "faixas";
+  albumMeta.textContent = `${count} ${label} • ${formatDurationLong(total)}`;
+  albumMeta.classList.add("is-ready");
+}
+
+function formatDurationLong(seconds) {
+  if (!isFinite(seconds)) return "0:00";
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = Math.floor(seconds % 60)
+    .toString()
+    .padStart(2, "0");
+  if (h > 0) return `${h}:${m.toString().padStart(2, "0")}:${s}`;
+  return `${m}:${s}`;
+}
 
 // ---------- build tracklist ----------
 function renderTracklist() {
@@ -90,6 +117,12 @@ function renderTracklist() {
     probe.addEventListener("loadedmetadata", () => {
       const el = li.querySelector('[data-role="duration"]');
       if (el && isFinite(probe.duration)) el.textContent = formatTime(probe.duration);
+      trackDurations[index] = isFinite(probe.duration) ? probe.duration : 0;
+      updateAlbumMeta();
+    });
+    probe.addEventListener("error", () => {
+      trackDurations[index] = 0; // don't let one missing file block the album total forever
+      updateAlbumMeta();
     });
 
     tracklistEl.appendChild(li);
